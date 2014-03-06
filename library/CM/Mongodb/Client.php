@@ -11,6 +11,11 @@ class CM_Mongodb_Client extends CM_Class_Abstract {
     $this->useDatabase('fuckbook');
   }
 
+  public function getNewId() {
+    $mongoId = new MongoId();
+    return (string)$mongoId;
+  }
+
   public function useDatabase($databaseName) {
     if ($this->_db) {
       unset($this->_db);
@@ -23,7 +28,11 @@ class CM_Mongodb_Client extends CM_Class_Abstract {
   }
 
   public function findOne($collection, $query) {
-    return $this->_db->{$collection}->findOne();
+    return $this->_db->{$collection}->findOne($query);
+  }
+
+  public function find($collection, $query) {
+    return $this->_db->{$collection}->find($query);
   }
 
   public function drop($collection) {
