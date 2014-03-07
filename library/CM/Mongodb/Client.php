@@ -35,6 +35,10 @@ class CM_Mongodb_Client extends CM_Class_Abstract {
     return $this->_db->{$collection}->find($query);
   }
 
+  public function count($collection, $query, $limit = 0, $skip = 0) {
+    return $this->_db->{$collection}->count($query, $limit, $skip);
+  }
+
   public function drop($collection) {
     $this->_db->drop($collection);
   }
