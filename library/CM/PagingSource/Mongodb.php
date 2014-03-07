@@ -14,13 +14,14 @@ class CM_PagingSource_Mongodb extends CM_PagingSource_Abstract {
 
   public function getCount($offset = null, $count = null) {
     $mdb = CM_Mongodb_Client::getInstance();
-    return $mdb->count($this->_collection, $this->_query);
+    return $mdb->find($this->_collection, $this->_query)->count();
   }
 
   public function getItems($offset = null, $count = null) {
     $mdb = CM_Mongodb_Client::getInstance();
     $result = array();
-    $cursor = $mdb->query($this->_collection, $this->_query);
+    //var_dump($this->_collection);
+    $cursor = $mdb->find($this->_collection, $this->_query);
     foreach ($cursor as $item) {
       $result[] = $item;
     }

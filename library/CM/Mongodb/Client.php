@@ -2,7 +2,7 @@
 
 class CM_Mongodb_Client extends CM_Class_Abstract {
 
-  /** @var \Memcache */
+  /** @var \MongoClient */
   private $_mongodb = null;
   private $_db = null;
 
@@ -36,11 +36,13 @@ class CM_Mongodb_Client extends CM_Class_Abstract {
   }
 
   public function count($collection, $query, $limit = 0, $skip = 0) {
+    $cursor = $this->find($collection, $query);
+    //return $cursor->
     return $this->_db->{$collection}->count($query, $limit, $skip);
   }
 
   public function drop($collection) {
-    $this->_db->drop($collection);
+    $this->_db->{$collection}->drop();
   }
 
   /**
