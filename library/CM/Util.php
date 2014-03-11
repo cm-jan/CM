@@ -46,8 +46,8 @@ class CM_Util {
       return $value;
     }
     if (is_string($argument)) {
-      if (strlen($argument) > 20) {
-        $argument = substr($argument, 0, 20) . '...';
+      if (strlen($argument) > 100) {
+        $argument = substr($argument, 0, 100) . '...';
       }
       return '\'' . $argument . '\'';
     }

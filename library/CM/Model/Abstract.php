@@ -48,7 +48,6 @@ abstract class CM_Model_Abstract extends CM_Class_Abstract implements CM_Compara
     foreach ($this->_getAssets() as $asset) {
       $this->_assets = array_merge($this->_assets, array_fill_keys($asset->getClassHierarchy(), $asset));
     }
-
     $this->_getData(); // Make sure data can be loaded
   }
 

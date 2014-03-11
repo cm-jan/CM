@@ -2,14 +2,15 @@
 
 class CM_PagingSource_Mongodb extends CM_PagingSource_Abstract {
 
-  private $_collection, $_query;
+  private $_fields, $_collection, $_query;
 
   /** @var array */
   private $_parameters = array();
 
-  function __construct($collection, $query) {
-     $this->_collection = $collection;
-     $this->_query = $query;
+  function __construct($fields, $collection, $query) {
+    $this->_collection = $collection;
+    $this->_query = $query;
+    $this->_fields = $fields;
   }
 
   public function getCount($offset = null, $count = null) {
@@ -20,16 +21,17 @@ class CM_PagingSource_Mongodb extends CM_PagingSource_Abstract {
   public function getItems($offset = null, $count = null) {
     $mdb = CM_Mongodb_Client::getInstance();
     $result = array();
-    //var_dump($this->_collection);
     $cursor = $mdb->find($this->_collection, $this->_query);
+    $keyList = array_flip($this->_fields);
     foreach ($cursor as $item) {
-      $result[] = $item;
+      $item['id'] = $item['_id'];
+      $result[] = array_intersect_key($item, $keyList);
     }
     return $result;
   }
 
   protected function _cacheKeyBase() {
-    throw new CM_Exception_Invalid('`' . __CLASS__ . '` does not support caching.');
+    return array($this->_fields, $this->_collection, $this->_query);
   }
 
   public function getStalenessChance() {
